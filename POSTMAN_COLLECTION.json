@@ -1,0 +1,413 @@
+{
+  "info": {
+    "name": "Social Desk API",
+    "description": "API endpoints for Social Desk analytics platform and integration with dupe sites",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://aabzwjzzchkddrlcxxjk.supabase.co/functions/v1",
+      "type": "string"
+    },
+    {
+      "key": "anonKey",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhYnp3anp6Y2hrZGRybGN4eGprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1MTkzMzgsImV4cCI6MjA3ODA5NTMzOH0.QEVjlkVCiYwPufEjGqwo3kc10HOeIBiVAye0Wmp-mUo",
+      "type": "string"
+    },
+    {
+      "key": "webhookSecret",
+      "value": "your-webhook-secret-here",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Social Desk API",
+      "item": [
+        {
+          "name": "Get Dashboard Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{anonKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/dashboard-summary",
+              "host": ["{{baseUrl}}"],
+              "path": ["dashboard-summary"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Calendar Activities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{anonKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/dashboard-calendar",
+              "host": ["{{baseUrl}}"],
+              "path": ["dashboard-calendar"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Top Posts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{anonKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/dashboard-top-posts?limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["dashboard-top-posts"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ingest Platform Stats (fb-dupe)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{anonKey}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Signature",
+                "value": "sha256=generated-signature-here",
+                "type": "text",
+                "description": "HMAC-SHA256 signature of the request body"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"platform\": \"fb-dupe\",\n  \"period_start\": \"2025-11-07T00:00:00Z\",\n  \"period_end\": \"2025-11-07T23:59:59Z\",\n  \"totals\": {\n    \"total_posts\": 120,\n    \"total_likes\": 45000,\n    \"total_views\": 900000,\n    \"total_comments\": 7000\n  },\n  \"top_k_posts\": [\n    {\n      \"post_id\": \"post-uuid-1\",\n      \"views\": 12345,\n      \"likes\": 540,\n      \"comments\": 100\n    },\n    {\n      \"post_id\": \"post-uuid-2\",\n      \"views\": 9800,\n      \"likes\": 400,\n      \"comments\": 85\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ingest-platform-stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["ingest-platform-stats"]
+            },
+            "description": "Send aggregated statistics from fb-dupe platform to Social Desk"
+          },
+          "response": []
+        },
+        {
+          "name": "Ingest Platform Stats (tw-dupe)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{anonKey}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Signature",
+                "value": "sha256=generated-signature-here",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"platform\": \"tw-dupe\",\n  \"period_start\": \"2025-11-07T00:00:00Z\",\n  \"period_end\": \"2025-11-07T23:59:59Z\",\n  \"totals\": {\n    \"total_posts\": 85,\n    \"total_likes\": 32000,\n    \"total_views\": 650000,\n    \"total_comments\": 5200\n  },\n  \"top_k_posts\": [\n    {\n      \"post_id\": \"tweet-uuid-1\",\n      \"views\": 8900,\n      \"likes\": 420,\n      \"comments\": 75\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ingest-platform-stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["ingest-platform-stats"]
+            },
+            "description": "Send aggregated statistics from tw-dupe platform to Social Desk"
+          },
+          "response": []
+        },
+        {
+          "name": "Ingest Platform Stats (tt-dupe)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{anonKey}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Signature",
+                "value": "sha256=generated-signature-here",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"platform\": \"tt-dupe\",\n  \"period_start\": \"2025-11-07T00:00:00Z\",\n  \"period_end\": \"2025-11-07T23:59:59Z\",\n  \"totals\": {\n    \"total_posts\": 95,\n    \"total_likes\": 38000,\n    \"total_views\": 750000,\n    \"total_comments\": 6100\n  },\n  \"top_k_posts\": [\n    {\n      \"post_id\": \"video-uuid-1\",\n      \"views\": 15000,\n      \"likes\": 680,\n      \"comments\": 120\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ingest-platform-stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["ingest-platform-stats"]
+            },
+            "description": "Send aggregated statistics from tt-dupe platform to Social Desk"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dupe Sites API (Reference)",
+      "description": "Reference endpoints that should be implemented by fb-dupe, tw-dupe, and tt-dupe",
+      "item": [
+        {
+          "name": "Create Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <user-jwt-token>",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Check out my latest post!\",\n  \"media_url\": \"https://example.com/image.jpg\",\n  \"media_type\": \"image\"\n}"
+            },
+            "url": {
+              "raw": "https://your-dupe-site.com/api/v1/posts",
+              "protocol": "https",
+              "host": ["your-dupe-site", "com"],
+              "path": ["api", "v1", "posts"]
+            },
+            "description": "Create a new post on the dupe platform"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Post Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <user-jwt-token>",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://your-dupe-site.com/api/v1/posts/:postId/stats",
+              "protocol": "https",
+              "host": ["your-dupe-site", "com"],
+              "path": ["api", "v1", "posts", ":postId", "stats"],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": "post-uuid-here"
+                }
+              ]
+            },
+            "description": "Get statistics for a specific post"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Holistic Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <admin-jwt-token>",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://your-dupe-site.com/api/v1/stats/holistic?from=2025-11-01&to=2025-11-07",
+              "protocol": "https",
+              "host": ["your-dupe-site", "com"],
+              "path": ["api", "v1", "stats", "holistic"],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "2025-11-01"
+                },
+                {
+                  "key": "to",
+                  "value": "2025-11-07"
+                }
+              ]
+            },
+            "description": "Get aggregated statistics for a date range"
+          },
+          "response": []
+        },
+        {
+          "name": "Like Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <user-jwt-token>",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://your-dupe-site.com/api/v1/posts/:postId/like",
+              "protocol": "https",
+              "host": ["your-dupe-site", "com"],
+              "path": ["api", "v1", "posts", ":postId", "like"],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": "post-uuid-here"
+                }
+              ]
+            },
+            "description": "Like a post"
+          },
+          "response": []
+        },
+        {
+          "name": "Comment on Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <user-jwt-token>",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Great post!\"\n}"
+            },
+            "url": {
+              "raw": "https://your-dupe-site.com/api/v1/posts/:postId/comments",
+              "protocol": "https",
+              "host": ["your-dupe-site", "com"],
+              "path": ["api", "v1", "posts", ":postId", "comments"],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": "post-uuid-here"
+                }
+              ]
+            },
+            "description": "Add a comment to a post"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <user-jwt-token>",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://your-dupe-site.com/api/v1/posts/:postId",
+              "protocol": "https",
+              "host": ["your-dupe-site", "com"],
+              "path": ["api", "v1", "posts", ":postId"],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": "post-uuid-here"
+                }
+              ]
+            },
+            "description": "Delete a post (owner or admin only)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Signature Generation (Pre-request Script)",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// Generate HMAC-SHA256 signature for webhook requests",
+              "const CryptoJS = require('crypto-js');",
+              "",
+              "// Get the request body",
+              "const requestBody = pm.request.body.raw;",
+              "",
+              "// Get the webhook secret from environment",
+              "const secret = pm.variables.get('webhookSecret');",
+              "",
+              "// Generate HMAC signature",
+              "const signature = CryptoJS.HmacSHA256(requestBody, secret).toString(CryptoJS.enc.Hex);",
+              "",
+              "// Set the X-Signature header",
+              "pm.request.headers.add({",
+              "    key: 'X-Signature',",
+              "    value: `sha256=${signature}`",
+              "});",
+              "",
+              "console.log('Generated signature:', `sha256=${signature}`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}
